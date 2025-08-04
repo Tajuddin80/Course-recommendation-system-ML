@@ -1,0 +1,11 @@
+course_id,course_title,description,tags
+101,"Python for Beginners","Learn Python programming basics.","python,beginner"
+102,"Machine Learning A-Z","Master machine learning from scratch.","ml,ai,python"
+103,"Deep Learning Masterclass","Advanced neural network techniques.","deep learning,neural networks,ai"
+104,"Web Dev with Flask","Create web applications using Flask.","flask,web,python"
+105,"Java Spring Boot Backend","Develop backend apps with Spring Boot.","java,spring,backend"
+106,"UI/UX Design with Figma","Master user interface and experience design.","design,ui/ux,figma"
+107,"Cloud Computing with AWS","Introduction to AWS services.","cloud,aws,docker"
+108,"Data Science Bootcamp","Statistics, SQL, and data science in one course.","data science,statistics,sql"
+109,"Frontend Development with React","Build dynamic UIs using React.","react,javascript,frontend"
+110,"Competitive Programming in C++","Problem-solving with algorithms.","c++,algorithms,competitive programming"

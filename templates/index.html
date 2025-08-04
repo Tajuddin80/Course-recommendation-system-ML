@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multi-User Course Recommender</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <h1>Upload CSV with Multiple Users</h1>
+
+  <div id="dropZone" class="drop-zone">
+    <p>Drag & Drop CSV file here or click to select</p>
+    <input type="file" id="fileInput" name="file" accept=".csv" hidden />
+  </div>
+
+  <button id="uploadBtn" disabled>Get Recommendations</button>
+
+  <div id="filePreview"></div>
+  <div id="results"></div>
+
+  <script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const filePreview = document.getElementById('filePreview');
+    const resultsDiv = document.getElementById('results');
+    let selectedFile = null;
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length) {
+        selectedFile = fileInput.files[0];
+        filePreview.textContent = `Selected file: ${selectedFile.name} (${Math.round(selectedFile.size / 1024)} KB)`;
+        uploadBtn.disabled = false;
+        resultsDiv.innerHTML = '';
+      }
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) {
+        selectedFile = e.dataTransfer.files[0];
+        filePreview.textContent = `Selected file: ${selectedFile.name} (${Math.round(selectedFile.size / 1024)} KB)`;
+        uploadBtn.disabled = false;
+        resultsDiv.innerHTML = '';
+      }
+    });
+
+    uploadBtn.addEventListener('click', async () => {
+      if (!selectedFile) return;
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      resultsDiv.innerHTML = '<p>Loading...</p>';
+      uploadBtn.disabled = true;
+
+      try {
+        const response = await fetch('/upload', { method: 'POST', body: formData });
+        if (!response.ok) {
+          const err = await response.json();
+          resultsDiv.innerHTML = `<p class="error">Error: ${err.error || 'Unknown error'}</p>`;
+          uploadBtn.disabled = false;
+          return;
+        }
+
+        const data = await response.json();
+        resultsDiv.innerHTML = '';
+
+        data.forEach(user => {
+          const userBlock = document.createElement('div');
+          userBlock.className = 'user-block';
+          userBlock.innerHTML = `<h3>User ID: ${user.user_id || 'N/A'}</h3>`;
+
+          const grid = document.createElement('div');
+          grid.className = 'course-grid';
+
+          user.recommendations.forEach(course => {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            card.innerHTML = `
+              <strong>${course.title}</strong>
+              <p>${course.description}</p>
+              <span class="score">Match Score: ${course.score}</span>
+            `;
+            grid.appendChild(card);
+          });
+
+          userBlock.appendChild(grid);
+          resultsDiv.appendChild(userBlock);
+        });
+
+      } catch (err) {
+        resultsDiv.innerHTML = `<p class="error">Error: ${err.message}</p>`;
+      }
+
+      uploadBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  margin: 2rem;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #1a202c;
+}
+
+.drop-zone {
+  border: 2px dashed #4a90e2;
+  padding: 2rem;
+  text-align: center;
+  background-color: #fff;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+.drop-zone.dragover {
+  background-color: #e3f2fd;
+}
+
+button {
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+}
+
+#filePreview {
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+.user-block {
+  margin-bottom: 2rem;
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.course-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-card strong {
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.course-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.course-card .score {
+  display: block;
+  margin-top: 0.5rem;
+  color: #888;
+  font-size: 0.85rem;
+}
